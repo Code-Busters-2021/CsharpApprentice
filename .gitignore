@@ -348,3 +348,10 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/CollectionRewrite/.vs/CollectionRewrite/project-colors.json
+/CollectionRewrite/.vs/CollectionRewrite/v17/.futdcache.v1
+/CollectionRewrite/.vs/CollectionRewrite/v17/.suo
+/CollectionRewrite/obj/*
+/TestCollection/obj/**
+*.sln
+
