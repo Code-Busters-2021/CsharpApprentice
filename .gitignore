@@ -353,5 +353,5 @@ MigrationBackup/
 /CollectionRewrite/.vs/CollectionRewrite/v17/.suo
 /CollectionRewrite/obj/*
 /TestCollection/obj/**
-*.sln
+
 
