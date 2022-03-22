@@ -79,7 +79,9 @@ namespace HelloWorld
         }
         static void Main(string[] args)
         {
-            // MtestList();
+            Console.WriteLine("_________________________ List ________________________");
+            MtestList();
+            Console.WriteLine("_____________________ Liked List ______________________");
             testLickedList();
 
         }
