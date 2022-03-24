@@ -4,11 +4,18 @@ using System.Collections.Generic;
 
 namespace CollectionRewrite.Enumerable
 {
-    static class Transformer
+    public static class Transformer
     {
         public static IEnumerable<TResult> TransformNumbers<TInput,TResult>(IEnumerable<TInput> originalEnumerable, Func<TInput, TResult> transformFunc)
         {
             return new TransformedEnumerable<TInput,TResult>(originalEnumerable, transformFunc);
+        }
+        public static IEnumerable<TResult> TransformNumbersWithYield<TInput,TResult>(IEnumerable<TInput> originalEnumerable, Func<TInput, TResult> transformFunc)
+        {
+            foreach (var element in originalEnumerable)
+            {
+                yield return transformFunc(element);
+            }
         }
     }
     public class TransformedEnumerable<TInput, TResult> : IEnumerable<TResult>
