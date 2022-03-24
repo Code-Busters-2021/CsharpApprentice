@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace CollectionRewrite
 {
+    // TODO add construct default
     public class MyLikedList<T>
     {
         public MyLikedList(IEnumerable<T> collection)
@@ -35,6 +36,16 @@ namespace CollectionRewrite
                 _head = _head.next;
             }
             return _head;
+        }
+
+        public void Visit(Action<T> function)
+        {
+            MyLikedListNode<T> _head = Head;
+
+             while (_head.next != null) {
+                function(_head.item);
+                _head = _head.next;
+            }
         }
 
         public void AddLast(T item)

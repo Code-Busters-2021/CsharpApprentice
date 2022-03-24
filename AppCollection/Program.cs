@@ -2,7 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 
-namespace HelloWorld
+namespace CollectionRewrite
 {
     class Program
     {
@@ -24,23 +24,26 @@ namespace HelloWorld
             MyList<int> myList = new MyList<int>(new int[] {1, 2, 5, 2, 2});
             List<int> list = new List<int>() {1, 2, 5, 2, 2};
 
+
             testList(list, myList, "test Add");
 
             list.Remove(2);
             myList.Remove(2);
-
             testList(list, myList, "test remove");
 
             list.RemoveAt(1);
             myList.RemoveAt(1);
-
             testList(list, myList, "test remove At");
 
 
             list.Insert(2, 6);
             myList.Insert(2, 6);
-
             testList(list, myList, "test Insert");
+
+            list.Reverse();
+            myList.Reverse();
+            testList(list, myList, "test Insert");
+
         }
 
         public static void testUnit(MyLikedList<int> myList, LinkedList<int> list)

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace HelloWorld
+// ! define resize method print reverse 
+
+namespace CollectionRewrite
 {
     public class MyList<T>
     {
@@ -13,12 +15,13 @@ namespace HelloWorld
                 Add(elem);
             }
         }
-        private static int DefaultArraySize = 2;
+        private static int RangeArraySize = 2;
+        private static int ArraySize = 2;
         private int length = 0;
 
         public int Length { get { return length; } }
 
-        public T[] array = new T[DefaultArraySize];
+        public T[] array = new T[ArraySize];
 
 
         public T this[int i]
@@ -27,25 +30,31 @@ namespace HelloWorld
             set { array[i] = value; }
         }
 
+        public void Resize()
+        {
+            ArraySize += RangeArraySize;
+            T[] _array = new T[ArraySize];
+            Array.Copy(array, _array, length);
+            array = _array;
+        } 
+
         public void Add(T Item)
         {
-            if (length >= DefaultArraySize) {
-                DefaultArraySize *= 2;
-                T[] _array = new T[DefaultArraySize];
-                Array.Copy(array, _array, length);
-                _array[length++] = Item;
-                array = _array;
+            if (length >= ArraySize) {
+                Resize();
+                array[length++] = Item;
             }
             else {
                 array[length++] = Item;
             }
         }
 
+        // TODO refacto Array.cpy()
         public void Insert (int index, T item)
         {
-            if (length >= DefaultArraySize)
-                DefaultArraySize *= 2;
-            T[] _array = new T[DefaultArraySize];
+            if (length >= ArraySize)
+                ArraySize += RangeArraySize;
+            T[] _array = new T[ArraySize];
 
             int indexOriginaleArray = 0;
 
@@ -63,12 +72,33 @@ namespace HelloWorld
             length++;
         }
 
+        public void Reverse()
+        {
+            T[] _array = new T[ArraySize];
+            // TODO add size
+
+            for (int i = 0; i < length; i++) {
+                _array[length - 1 - i] = array[i];
+            }
+            array = _array;
+        }
+
+        // public void BrowseArray(Delegate met)
+
+        public void Print()
+        {
+            foreach (var elem in array) {
+                Console.WriteLine($"{elem}, ");
+            }
+        }
+
+        // TODO refacto Array.cpy()
         public void Remove(T Item)
         {
             int RemoveIndex = Array.FindIndex(array, e => e.Equals(Item));
             if (RemoveIndex == -1 || RemoveIndex > length)
                 return ;
-            T[] _array = new T[DefaultArraySize];
+            T[] _array = new T[ArraySize];
 
             int indexTmp = 0;
 
@@ -87,7 +117,7 @@ namespace HelloWorld
         {
             if (index < -1 || index > length)
                 return ;
-            T[] _array = new T[DefaultArraySize];
+            T[] _array = new T[ArraySize];
 
             int indexTmp = 0;
 

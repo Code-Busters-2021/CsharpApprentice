@@ -1,9 +1,10 @@
 using NUnit.Framework;
+using CollectionRewrite;
 
 namespace TestCollection
 {
     [TestFixture]
-    public class Tests
+    public class ListShould
     {
         [SetUp]
         public void Setup()
@@ -11,8 +12,8 @@ namespace TestCollection
      
         }
 
-        [Test]
-        public void TestEmpty()
+        [Test(Description = "TestAdd")]
+        public void TestAdd()
         {
             // Assert.That(MyList.RemoveAll().Length, Is.EqualTo(0));
         }
@@ -20,7 +21,7 @@ namespace TestCollection
         [Test]
         public void TestRemoveFromNonEmpty()
         {
-           // MyList<int>
+           MyList<int> test = new MyList<int>(new int[] {2, 3});
         }
 
         public void CeciNestPasUnTest()
