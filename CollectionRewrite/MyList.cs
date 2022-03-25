@@ -7,6 +7,7 @@ namespace CollectionRewrite
 {
     public class MyList<T>
     {
+        public MyList() {}
         public MyList(IEnumerable<T> collection)
         {
             if (collection == null)

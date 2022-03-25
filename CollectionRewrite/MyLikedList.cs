@@ -6,6 +6,7 @@ namespace CollectionRewrite
     // TODO add construct default
     public class MyLikedList<T>
     {
+        public MyLikedList() {}
         public MyLikedList(IEnumerable<T> collection)
         {
             if (collection == null)

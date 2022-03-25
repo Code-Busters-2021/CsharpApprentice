@@ -82,11 +82,16 @@ namespace CollectionRewrite
         }
         static void Main(string[] args)
         {
+            IEnumerable<string> strs = new string[] {"tata", "toto", "tut", "AaA", "a z", "A Z"};
             Console.WriteLine("_________________________ List ________________________");
             MtestList();
             Console.WriteLine("_____________________ Liked List ______________________");
             testLickedList();
 
+            var t = strs.OrderBy(s => s[2]).ToList();
+            foreach (var elem in t) {
+                Console.WriteLine(elem);
+            }
         }
     }
 }
