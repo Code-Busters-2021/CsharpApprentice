@@ -19,7 +19,7 @@ namespace TestCollection.Linq
         public void TestNegativValue()
         {
             IEnumerable<int> numbers = new int[] {1, 3, -1, -4, 3, -5};
-            IEnumerable<int> expectedResult = new int[] {1, 3, 3};
+            IEnumerable<int> expectedResult = new int[] {-1, -4, -5};
 
             var numbersAfterWhere = numbers.Where(i => i < 0);
             CollectionAssert.AreEqual(numbersAfterWhere, expectedResult, $"where doesn't work");

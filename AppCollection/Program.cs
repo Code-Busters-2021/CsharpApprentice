@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
+using CollectionRewrite;
 
 namespace CollectionRewrite
 {
     class Program
     {
+        public class testClass
+        {
+            public int test;
+        }
         public static async void testList(List<int> list, MyList<int> myList, string message)
         {
             Console.WriteLine(message);
@@ -92,6 +97,25 @@ namespace CollectionRewrite
             foreach (var elem in t) {
                 Console.WriteLine(elem);
             }
+
+            string testStr = "un";
+            MyDictionary<string, int> test = new MyDictionary<string, int>(testStr);
+            test.Add("un", 1);
+            test.Add("un", 1);
+            test.Add("deux", 2);
+            test.Add("trois", 4);
+
+            test.DisplayDictionary();
+
+            IEnumerable<int> numbers = new int[] {9, 5, 4, -4, 455, 3, -9, 0};
+            var un = numbers.OrderByDescending(n => n);
+
+            foreach(var e in un) {
+                Console.WriteLine($"test = {e}");
+            }
+ 
+
+            // Dictionary<string, int> test = new Directory<string, int>();
         }
     }
 }

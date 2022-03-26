@@ -7,7 +7,7 @@ using System.Linq;
 namespace TestCollection.Linq
 {
     [TestFixture]
-    public class OrderByShould
+    public class OrderByDescendingShould
     {
         [SetUp]
         public void Setup()
@@ -16,24 +16,24 @@ namespace TestCollection.Linq
         }
 
         [Test(Description = "number")]
-        public void TestOrderByNumber()
+        public void TestOrderByDescendingNumber()
         {
             IEnumerable<int> numbers = new int[] {9, 5, 4, -4, 455, 3, -9, 0};
-            IEnumerable<int> expectedResult = new int[] {-9, -4, 0, 3, 4, 5, 9, 455};
+            IEnumerable<int> expectedResult = new int[] {455, 9, 5, 4, 3, 0, -4, -9};
 
-            IEnumerable<int> numbersAfterWhere = numbers.OrderBy(n => n);
+            IEnumerable<int> numbersAfterWhere = numbers.OrderByDescending(n => n);
             CollectionAssert.AreEqual(numbersAfterWhere, expectedResult, $"where doesn't work");
         }
 
-        /*[Test(Description = "string")]
-        public void TestOrderByString()
+        [Test(Description = "string")]
+        public void TestOrderByDescendingString()
         {
             IEnumerable<string> numbers = new string[] {"z", "taa", "uz", "ye", "qr"};
-            IEnumerable<string> expectedResult = new string[] {"qr", "taa", "uz", "ye", "z"};
+            IEnumerable<string> expectedResult = new string[] {"z", "ye", "uz", "taa", "qr"};
 
-            IEnumerable<string> numbersAfterWhere = numbers.OrderBy(n => n);
+            IEnumerable<string> numbersAfterWhere = numbers.OrderByDescending(n => n);
             CollectionAssert.AreEqual(numbersAfterWhere, expectedResult, $"where doesn't work");
-        } */       
+        }        
 
 
     }

@@ -5,7 +5,7 @@
 	* Select -> fait
 	* Where -> fait
 	* SelectMany
-	* OrderBy
+	* OrderBy -> fait
 	* OrderByDescending
 	* First
 	* Single
@@ -21,3 +21,4 @@
 	* Max, Min, Sum, Average, Aggregate
 * Recoder l'IDictionary
 * Ajouter les tests unitaires de MyList et de MyLinkedList
+* multi dim tab
