@@ -6,12 +6,12 @@
 	* Where -> fait
 	* SelectMany
 	* OrderBy -> fait
-	* OrderByDescending
-	* First
-	* Single
-	* FirstOrDefault
-	* SingleOrDefault
-	* Zip
+	* OrderByDescending -> fait
+	* First -> fait
+	* Single -> fait
+	* FirstOrDefault -> fait
+	* SingleOrDefault -> fait
+	* Zip -> fait
 	* Join
 	* GroupBy
 	* Skip
@@ -22,3 +22,8 @@
 * Recoder l'IDictionary
 * Ajouter les tests unitaires de MyList et de MyLinkedList
 * multi dim tab
+
+## Question
+* linked list acces to an element
+* garbage colector
+* [][] & [,] array diff

@@ -26,7 +26,8 @@ namespace CollectionRewrite
             int intKey;
 
             try {
-                intKey = key.GetHashCode();  
+                intKey = key.GetHashCode();
+                // key.ToString();
             }
             catch {
                 throw new ArgumentException("Ivalide Key");
