@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace CollectionRewrite 
 {
@@ -12,8 +13,11 @@ namespace CollectionRewrite
         public MyDictionary(TKey key) {
             Console.WriteLine(HashKey(key));
         }
-        private static int _length = 100;
-        int Length { get => _length; set => value = 100; }
+        private static int _length = 2;
+        private int _count = 0;
+        public int Count { get => _count; }
+        int Length { get => _length; }
+
         public MyDictionaryNode<TKey, TValue>[] array = new MyDictionaryNode<TKey, TValue>[_length];
 
         public TValue this[TKey key]
@@ -27,7 +31,6 @@ namespace CollectionRewrite
 
             try {
                 intKey = key.GetHashCode();
-                // key.ToString();
             }
             catch {
                 throw new ArgumentException("Ivalide Key");
@@ -36,28 +39,38 @@ namespace CollectionRewrite
             return intKey % Length;
         }
 
-        private void TryInsert(TKey key, TValue value, MyDictionaryNode<TKey, TValue> node)
+        private void TryInsert(TKey key, TValue value)
+        {
+            int hashKey = HashKey(key);
+
+            if (array[hashKey] == null)
+                array[hashKey] = new MyDictionaryNode<TKey, TValue>(key, value);
+            else {
+                if (array[hashKey].next == null && Object.Equals(array[hashKey].key, key))
+                    throw new ArgumentException($"this item as already been added: Key: {key}");
+                MyDictionaryNode<TKey, TValue> node = array[hashKey];
+
+                while (node.next != null) {
+                    if (Object.Equals(node.key, key))
+                        throw new ArgumentException($"this item as already been added: Key: {key}");
+                    node = node.next;
+                }
+                node.next = new MyDictionaryNode<TKey, TValue>(key, value);
+            }
+            _count++;
+        }
+
+        private MyDictionaryNode<TKey, TValue> GetLastEelem(MyDictionaryNode<TKey, TValue> node)
         {
             while (node.next != null) {
-                if (Object.Equals(node.key, key))
-                    throw new ArgumentException($"this item as already been added: Key: {key}");
                 node = node.next;
             }
+            return node;
         }
 
         public void Add(TKey key, TValue value)
         {
-            int hashKey = HashKey(key);
-            if (!object.ReferenceEquals(null, array[hashKey])) {
-                MyDictionaryNode<TKey, TValue> listNode = array[hashKey];
-
-                while (listNode.next != null) {
-                    listNode = listNode.next;
-                }
-                listNode.next = new MyDictionaryNode<TKey, TValue>(key, value);
-            } else {
-                array[hashKey] =  new MyDictionaryNode<TKey, TValue>(key, value);
-            }
+            TryInsert(key, value);
         }
 
         public void DisplayDictionary()
@@ -74,26 +87,51 @@ namespace CollectionRewrite
                         Console.Write($"key = {listNode.key}, value = {listNode.value}, ");
                         listNode = listNode.next;
                     }
+                    Console.WriteLine();
                 }
             }
         }
 
-        public MyDictionaryNode<TKey, TValue> FindIndex(TKey key)
+        public MyDictionaryNode<TKey, TValue> Map(MyDictionaryNode<TKey, TValue> node, Func<TKey, bool> func)
         {
-            for (int i = 0; i < array.Length; i++) {
-                if (Object.Equals(array[i].key, key))
-                    return array[i];
-                else if (array[i].next != null) {
-                    MyDictionaryNode<TKey, TValue> listNode = array[i];
-
-                    while (listNode.next != null) {
-                        if (Object.Equals(listNode.key, key))
-                            return listNode;
-                        listNode = listNode.next;
-                    }
-                }
+            while (node.next != null) {
+                if (func(node.key))
+                    return node;
+                node = node.next;
             }
             return null;
+        }
+        public MyDictionaryNode<TKey, TValue> FindIndex(TKey key)
+        {
+            int hashKey = HashKey(key);
+
+            if (array[hashKey].next == null)
+                return array[HashKey(key)];
+            return Map(array[hashKey], k => Object.Equals(k, key));
+        }
+
+        public void Remove(TKey key) 
+        {
+            int hashKey = HashKey(key);
+
+            if (array[hashKey].next == null)
+                array[hashKey] = null;
+            else if (array[hashKey] != null) {
+                MyDictionaryNode<TKey, TValue> previous = array[hashKey];
+                MyDictionaryNode<TKey, TValue> tmpList = previous.next;
+                
+                Console.WriteLine("IN IN");
+                while (tmpList.next != null) {
+                    if (Object.Equals(tmpList.key, key) ) {
+                        previous.next = tmpList.next;
+                        tmpList = null;
+                        return ;
+                    }
+                    previous = tmpList;
+                    tmpList = tmpList.next;
+                }
+                Console.WriteLine("OUT OUT"); 
+            }
         }
 
     }

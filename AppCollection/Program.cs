@@ -100,20 +100,18 @@ namespace CollectionRewrite
 
             string testStr = "un";
             MyDictionary<string, int> test = new MyDictionary<string, int>(testStr);
-            test.Add("un", 1);
+            test.Add("zero", 0);
             test.Add("un", 1);
             test.Add("deux", 2);
             test.Add("trois", 4);
+            test["coucou"] = 8;
+
+             Console.WriteLine($"before remove: {test["coucou"]}");
+            test.Remove("coucou");
+            // Console.WriteLine($"before remove: {test["coucou"]}");
 
             test.DisplayDictionary();
-
-            IEnumerable<int> numbers = new int[] {9, 5, 4, -4, 455, 3, -9, 0};
-            var un = numbers.OrderByDescending(n => n);
-
-            foreach(var e in un) {
-                Console.WriteLine($"test = {e}");
-            }
-
+            // Console.WriteLine($"test = {test["deux"]}");
  
 
             // Dictionary<string, int> test = new Directory<string, int>();
