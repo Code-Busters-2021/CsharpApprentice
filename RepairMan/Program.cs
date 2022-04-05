@@ -40,7 +40,7 @@ public class RepairMan
 {
     public static void Repair(Machine m)
     {
-        throw new Exception("Unknown machine type");
+        throw new Exception("Unknown machine type");//todo change this to repair the good machine
     }
     public static void Repair(WashingMachine m)
     {
