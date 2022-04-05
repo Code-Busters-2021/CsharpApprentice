@@ -40,7 +40,7 @@ public class RepairMan
 {
     public static void Repair(Machine m)
     {
-        System.Console.WriteLine("I'm repairing a strange machine");
+        throw new Exception("Unknown machine type");
     }
     public static void Repair(WashingMachine m)
     {
