@@ -7,6 +7,7 @@ Repo with c# code examples
 ## Simple Katas
 
 ## Multithreading
+### Chou
 Application multithreading:
 Application avec 3 threads/tasks, chèvre, chou, loup. 
 1. version avec un thread/task paysan modéliser la traversée d'une rivière à bord d'un bateau. Avec tous les threads lancés en parallèle.
