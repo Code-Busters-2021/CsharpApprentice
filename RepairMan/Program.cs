@@ -10,7 +10,7 @@ RepairMan.Repair(wm);
 RepairMan.Repair(m);
 
 
-interface Machine
+public interface Machine
 {
     public void Work();
 }
@@ -30,7 +30,7 @@ public class CoffeeMachine : Machine
 
 public class WashingMachine : Machine
 {
-    public Void Work()
+    public void Work()
     {
         System.Console.WriteLine("I'm a washing machine and I'm washing");
     }
