@@ -1,0 +1,53 @@
+using System;
+
+// See https://aka.ms/new-console-template for more information
+Console.WriteLine("Hello, World!");
+var wm = new WashingMachine();
+Machine m = new WashingMachine();
+CoffeeMachine cm = new CoffeeMachine();
+RepairMan.Repair(cm);
+RepairMan.Repair(wm);
+RepairMan.Repair(m);
+
+
+public interface Machine
+{
+    public void Work();
+}
+
+public class CoffeeMachine : Machine
+{
+    public void Work()
+    {
+        MakeCoffee();
+    }
+
+    private void MakeCoffee()
+    {
+        System.Console.WriteLine("I'm a coffee machine and I'm making coffee");
+    }
+}
+
+public class WashingMachine : Machine
+{
+    public void Work()
+    {
+        System.Console.WriteLine("I'm a washing machine and I'm washing");
+    }
+}
+
+public class RepairMan
+{
+    public static void Repair(Machine m)
+    {
+        throw new Exception("Unknown machine type");//todo change this to repair the good machine
+    }
+    public static void Repair(WashingMachine m)
+    {
+        System.Console.WriteLine("I'm repairing a washing machine");
+    }
+    public static void Repair(CoffeeMachine m)
+    {
+        System.Console.WriteLine("I'm repairing a coffee machine");
+    }
+}
