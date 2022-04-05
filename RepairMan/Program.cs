@@ -44,10 +44,10 @@ public class RepairMan
     }
     public static void Repair(WashingMachine m)
     {
-        System.Console.WriteLine("I'm repairing a strange machine");
+        System.Console.WriteLine("I'm repairing a washing machine");
     }
     public static void Repair(CoffeeMachine m)
     {
-        System.Console.WriteLine("I'm repairing a strange machine");
+        System.Console.WriteLine("I'm repairing a coffee machine");
     }
 }
