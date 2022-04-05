@@ -106,7 +106,7 @@ namespace CollectionRewrite
             test.Add("trois", 4);
             test["coucou"] = 8;
 
-             Console.WriteLine($"before remove: {test["coucou"]}");
+            Console.WriteLine($"before remove: {test["coucou"]}");
             test.Remove("coucou");
             // Console.WriteLine($"before remove: {test["coucou"]}");
 

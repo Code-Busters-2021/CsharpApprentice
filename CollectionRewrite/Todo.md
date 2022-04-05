@@ -12,16 +12,17 @@
 	* FirstOrDefault -> fait
 	* SingleOrDefault -> fait
 	* Zip -> fait
-	* Join
-	* GroupBy
-	* Skip
-	* SkipWhile
-	* Take
-	* TakeWhile
+	* Join -> en cour
+	* GroupBy -> en cour
+	* Skip -> fait
+	* SkipWhile -> fait 
+	* Take -> fait
+	* TakeWhile -> fait
 	* Max, Min, Sum, Average, Aggregate
 * Recoder l'IDictionary
 * Ajouter les tests unitaires de MyList et de MyLinkedList
 * multi dim tab
+
 
 ## Question
 * linked list acces to an element

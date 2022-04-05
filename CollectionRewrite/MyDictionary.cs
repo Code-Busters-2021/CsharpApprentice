@@ -14,7 +14,7 @@ namespace CollectionRewrite
         public MyDictionary(TKey key) {
             Console.WriteLine(HashKey(key));
         }
-        private static int _length = 2;
+        private static int _length = 100;
         private int _count = 0;
         public int Count { get => _count; }
         int Length { get => _length; }
@@ -67,13 +67,11 @@ namespace CollectionRewrite
         {
             foreach (CollisionsList<TKey, TValue> collisionsList in array)
             {
-                if (collisionsList == null)
-                {
+                if (collisionsList == null) {
                     continue;
                 }
 
-                foreach (var listNode in collisionsList)
-                {
+                foreach (var listNode in collisionsList) {
                     Console.Write($"key = {listNode.Key}, value = {listNode.Value}, ");
                 }
 
@@ -85,10 +83,8 @@ namespace CollectionRewrite
         {
             int hashKey = HashKey(key);
 
-            foreach (var tuple in array[hashKey])
-            {
-                if (Equals(tuple.Key,key))
-                {
+            foreach (var tuple in array[hashKey]) {
+                if (Equals(tuple.Key,key)) {
                     return tuple;
                 }
             }
@@ -96,9 +92,17 @@ namespace CollectionRewrite
             throw new KeyNotFoundException($"Key '{key}' does not exist");
         }
 
-        public void Remove(TKey key) 
+        public void Remove(TKey key)
         {
             int hashKey = HashKey(key);
+
+            array[hashKey].Remove(key);
+        }
+
+        public void Remove(TKey key, out TValue value)
+        {
+            int hashKey = HashKey(key);
+            value = array[hashKey].Value;
 
             array[hashKey].Remove(key);
         }
