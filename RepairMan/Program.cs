@@ -2,6 +2,13 @@ using System;
 
 // See https://aka.ms/new-console-template for more information
 Console.WriteLine("Hello, World!");
+var wm = new WashingMachine();
+Machine m = new WashingMachine();
+CoffeeMachine cm = new CoffeeMachine();
+RepairMan.Repair(cm);
+RepairMan.Repair(wm);
+RepairMan.Repair(m);
+
 
 interface Machine
 {
