@@ -1,2 +1,13 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿namespace Chou 
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            MultithreadingSolution test = new MultithreadingSolution();
+            test.execute();
+
+        }
+    }
+}

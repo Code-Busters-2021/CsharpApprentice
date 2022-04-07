@@ -36,7 +36,7 @@ namespace TestCollection.Linq
             CollectionAssert.AreEqual(expectedResult, resultAfterJoin, $"where doesn't work");
         }
 
-                [Test(Description = "number")]
+        // [Test(Description = "number")]
         /*public void CompositeJoinShould()
         {
             var resultAfterJoin = objectOnes.Join(objectTwos,
