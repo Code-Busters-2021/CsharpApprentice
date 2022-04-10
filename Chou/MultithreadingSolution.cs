@@ -24,29 +24,25 @@ namespace Chou
         public void WolfFunc()
         {
             while (!IsFinish()) {
-                // lock (balanceLock) {
+                lock (balanceLock) {
                     if (IsInTheSameState(Wolf, Goat))
                         throw new Exception("The wolf ate the goat");
-                // }
+                }
             }
-            Thread.Sleep(4000);
-            // Wolf = Wolf == StateEntitiesEnum.LeftBank ?  StateEntitiesEnum.RightBank :  StateEntitiesEnum.LeftBank;
         }
 
         public void GoatFunc()
         {
             while (!IsFinish()) {
-                // lock (balanceLock) {
+                lock (balanceLock) {
                     if (IsInTheSameState(Goat, Cabbage))
                         throw new Exception("The Goat ate the gabbage");
-                // }
+                }
             }
-            // Goat = Goat == StateEntitiesEnum.LeftBank ? StateEntitiesEnum.RightBank : StateEntitiesEnum.LeftBank;
         } 
 
         public void CabbageFunc()
         {
-            // Cabbage = Cabbage == StateEntitiesEnum.LeftBank ? StateEntitiesEnum.RightBank : StateEntitiesEnum.LeftBank;
         }
 
         public void CrossRiver(ref StateEntitiesEnum element)
@@ -59,9 +55,10 @@ namespace Chou
 
         public void PeasantFunc()
         {
+            Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage} & p = {Peasant}");
             CrossRiver(ref Wolf);
-            CrossRiver(ref Peasant);
             CrossRiver(ref Cabbage);
+            CrossRiver(ref Peasant);
             Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage} & p = {Peasant}");
             CrossRiver(ref Peasant);
             Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage} & p = {Peasant}");

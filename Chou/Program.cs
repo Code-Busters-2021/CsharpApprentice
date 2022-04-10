@@ -5,8 +5,9 @@
 
         static void Main(string[] args)
         {
-            MultithreadingSolution test = new MultithreadingSolution();
-            test.execute();
+            // MultithreadingSolution test = new MultithreadingSolution();
+            MultithreadingWithoutPeasant testNoP = new MultithreadingWithoutPeasant();
+            testNoP.execute();
 
         }
     }
