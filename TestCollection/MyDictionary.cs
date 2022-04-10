@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using CollectionRewrite;
 using System.Collections.Generic;
+using System;
 
 namespace TestCollection
 {
@@ -14,7 +15,7 @@ namespace TestCollection
         }
 
         [Test(Description = "Length")]
-        public void TestLength()
+        public void ShouldCount()
         {
             Dictionary<string, int> referanceDictionary = new Dictionary<string, int>();
             referanceDictionary.Add("Un", 1);
@@ -27,7 +28,7 @@ namespace TestCollection
         }
 
         [Test(Description = "Add")]
-        public void TestAdd()
+        public void ShouldAdd()
         {
             Dictionary<string, int> referanceDictionary = new Dictionary<string, int>();
             MyDictionary<string, int> shouldNumbers = new MyDictionary<string, int>();
@@ -39,41 +40,42 @@ namespace TestCollection
         }
 
         [Test(Description = "Insert")]
-        public void TestInsert()
+        public void ShouldTryInsert()
         {
             Dictionary<string, int> referanceDictionary = new Dictionary<string, int>();
             MyDictionary<string, int> shouldNumbers = new MyDictionary<string, int>();
 
             referanceDictionary.Add("un", 1);
             shouldNumbers.Add("un", 1);
-            // Assert.Throws(() => shouldNumbers.TryInsert("un", 2));
+            Assert.Throws<Exception>(() => shouldNumbers.TryInsert("un", 2));
             Assert.AreEqual(referanceDictionary["un"], shouldNumbers["un"]);
         }
 
         [Test(Description = "RemoveFromNonEmpty")]
-        public void TestRemoveFromNonEmpty()
+        public void ShouldRemveValue()
         {
-            List<int> referanceNumbers = new List<int>() {2, 3};
-            MyList<int> listTest = new MyList<int>(new int[] {2, 3});
+            Dictionary<string, int> referanceNumbers = new Dictionary<string, int>();
+            referanceNumbers.Add("un", 1);
+            MyDictionary<string, int> shouldNumbers = new MyDictionary<string, int>();
+            shouldNumbers.Add("un", 1);
 
-            listTest.Remove(3);
-            referanceNumbers.Remove(3);
-            for (int i = 0; i < referanceNumbers.Count; i++) {
-                Assert.AreEqual(listTest[i], referanceNumbers[i]);
-            }
+            shouldNumbers.Remove("un");
+            referanceNumbers.Remove("un");
+            Assert.AreEqual(referanceNumbers.Count, shouldNumbers.Count);
         }
 
-        [Test(Description = "RemoveFromNonEmpty")]
-        public void TestRemoveAtFromNonEmpty()
+        [Test(Description = "remove whith save out value")]
+        public void ShouldRemoveOutValue()
         {
-            List<int> referanceNumbers = new List<int>() {1, 2, 3};
-            MyList<int> listTest = new MyList<int>(new int[] {1, 2, 3});
+            Dictionary<string, int> referanceNumbers = new Dictionary<string, int>();
+            referanceNumbers.Add("un", 1);
+            MyDictionary<string, int> shouldNumbers = new MyDictionary<string, int>();
+            shouldNumbers.Add("un", 1);
 
-            listTest.Remove(2);
-            referanceNumbers.Remove(2);
-            for (int i = 0; i < referanceNumbers.Count; i++) {
-                Assert.AreEqual(listTest[i], referanceNumbers[i]);
-            }
+            shouldNumbers.Remove("un", out int shouldInt);
+            referanceNumbers.Remove("un", out int referanceInt);
+            Assert.AreEqual(referanceNumbers.Count, shouldNumbers.Count);
+            Assert.AreEqual(shouldInt, referanceInt);
         }
     }
 }

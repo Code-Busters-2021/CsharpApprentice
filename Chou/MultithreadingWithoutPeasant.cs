@@ -25,9 +25,13 @@ namespace Chou
         {
             while (!IsFinish()) {
                 lock (balanceLock) {
-                    Console.WriteLine($"test lock 1 = {Wolf}");
-                    if (IsInTheSameState(Wolf, Goat))
-                        throw new Exception("The wolf ate the goat");
+
+                    if (IsInTheSameState(Goat, Cabbage)) {
+                        CrossRiver(ref Wolf);
+                    }
+                    // Console.WriteLine($"test lock 1 = {Wolf}");
+                    // if (IsInTheSameState(Wolf, Goat) && !IsFinish())
+                    //     throw new Exception("The wolf ate the goat");
                 }
             }
         }
@@ -36,15 +40,24 @@ namespace Chou
         {
             while (!IsFinish()) {
                 lock (balanceLock) {
-                    Console.WriteLine($"test lock 1 = {Goat}");
-                    if (IsInTheSameState(Goat, Cabbage))
-                        throw new Exception("The Goat ate the gabbage");
+
+                    if (IsInTheSameState(Goat, Cabbage)) {
+                        CrossRiver(ref Goat);
+                    }
+                    // Console.WriteLine($"test lock 1 = {Goat}");
+                    // if (IsInTheSameState(Goat, Cabbage) && !IsFinish())
+                    //     throw new Exception($"The Goat ate the gabbage w: {Wolf},  W:{Goat}, C:{Cabbage} _::{IsFinish()}");
                 }
             }
         } 
 
         public void CabbageFunc()
         {
+            lock (balanceLock) {
+                if (IsInTheSameState(Goat, Cabbage)) {
+                    CrossRiver(ref Cabbage);
+                }
+            }
         }
 
         public void CrossRiver(ref StateEntitiesEnum element)
@@ -53,26 +66,22 @@ namespace Chou
             element = StateEntitiesEnum.Boat;
             Thread.Sleep(1000);
             element = tmpElem == StateEntitiesEnum.LeftBank ? StateEntitiesEnum.RightBank : StateEntitiesEnum.LeftBank;
+            Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage}");
         }
 
         public void execute()
         {
-            List<Task> tasks = new List<Task>() {new Task(GoatFunc), new Task(WolfFunc), new Task(CabbageFunc)};
+            List<Task> tasks = new List<Task>() {new Task(CabbageFunc), new Task(GoatFunc), new Task(WolfFunc)};
 
             foreach (var task in tasks) {
                 task.Start();
             }
 
-            Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage}");
-            CrossRiver(ref Goat);
-            CrossRiver(ref Wolf);
-            Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage}");
-            CrossRiver(ref Goat);
-            Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage}");
-            CrossRiver(ref Cabbage);
-            Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage}");
-            CrossRiver(ref Goat);
-            Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage}");
+            // CrossRiver(ref Goat);
+            // CrossRiver(ref Wolf);
+            // CrossRiver(ref Goat);
+            // CrossRiver(ref Cabbage);
+            // CrossRiver(ref Goat);
 
             Task.WaitAll(tasks.ToArray());
             Console.WriteLine($"fiish no peasant");

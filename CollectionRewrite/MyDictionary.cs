@@ -40,7 +40,7 @@ namespace CollectionRewrite
             return intKey % Length;
         }
 
-        private void TryInsert(TKey key, TValue value)
+        public void TryInsert(TKey key, TValue value)
         {
             int hashKey = HashKey(key);
             if (array[hashKey] == null)
