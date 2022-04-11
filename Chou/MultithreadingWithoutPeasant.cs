@@ -11,27 +11,25 @@ namespace Chou
         {
             // Console.WriteLine($"p = {Peasant}, G = {Goat}, C = {Cabbage}, W = {Wolf}");
             return (entityOne == StateEntitiesEnum.LeftBank && entityTwo == StateEntitiesEnum.LeftBank) || 
-                    (entityOne == StateEntitiesEnum.RightBank && entityTwo == StateEntitiesEnum.RightBank) || 
-                    (entityOne == StateEntitiesEnum.Boat && entityTwo == StateEntitiesEnum.Boat) && 
-                    !(Wolf == StateEntitiesEnum.RightBank && Goat == StateEntitiesEnum.RightBank && Cabbage == StateEntitiesEnum.RightBank);
+                    (entityOne == StateEntitiesEnum.RightBank && entityTwo == StateEntitiesEnum.RightBank);
         }
 
         public bool IsFinish()
         {
-            return Wolf == StateEntitiesEnum.RightBank && Goat == StateEntitiesEnum.RightBank && Cabbage == StateEntitiesEnum.RightBank;   
+            return Wolf == StateEntitiesEnum.RightBank && Goat == StateEntitiesEnum.RightBank && Cabbage == StateEntitiesEnum.RightBank;
+        }
+
+        public bool IsStart()
+        {
+            return Wolf == StateEntitiesEnum.LeftBank && Goat == StateEntitiesEnum.LeftBank && Cabbage == StateEntitiesEnum.LeftBank;
         }
 
         public void WolfFunc()
         {
             while (!IsFinish()) {
                 lock (balanceLock) {
-
-                    if (IsInTheSameState(Goat, Cabbage)) {
-                        CrossRiver(ref Wolf);
-                    }
-                    // Console.WriteLine($"test lock 1 = {Wolf}");
-                    // if (IsInTheSameState(Wolf, Goat) && !IsFinish())
-                    //     throw new Exception("The wolf ate the goat");
+                    if (IsInTheSameState(Wolf, Goat) && !IsStart() && !IsFinish())
+                        throw new Exception("The wolf ate the goat");
                 }
             }
         }
@@ -40,24 +38,14 @@ namespace Chou
         {
             while (!IsFinish()) {
                 lock (balanceLock) {
-
-                    if (IsInTheSameState(Goat, Cabbage)) {
-                        CrossRiver(ref Goat);
-                    }
-                    // Console.WriteLine($"test lock 1 = {Goat}");
-                    // if (IsInTheSameState(Goat, Cabbage) && !IsFinish())
-                    //     throw new Exception($"The Goat ate the gabbage w: {Wolf},  W:{Goat}, C:{Cabbage} _::{IsFinish()}");
+                    if (IsInTheSameState(Goat, Cabbage) && !IsStart() && !IsFinish())
+                        throw new Exception($"The Goat ate the gabbage w: {Wolf},  W:{Goat}, C:{Cabbage} _Finish::{IsFinish()}, __Start{IsStart()} ");
                 }
             }
         } 
 
         public void CabbageFunc()
         {
-            lock (balanceLock) {
-                if (IsInTheSameState(Goat, Cabbage)) {
-                    CrossRiver(ref Cabbage);
-                }
-            }
         }
 
         public void CrossRiver(ref StateEntitiesEnum element)
@@ -69,6 +57,13 @@ namespace Chou
             Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage}");
         }
 
+        public void ChangeSates(ref StateEntitiesEnum element, StateEntitiesEnum state)
+        {
+            Thread.Sleep(1000);
+            Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage}");
+            element = state; 
+        }
+
         public void execute()
         {
             List<Task> tasks = new List<Task>() {new Task(CabbageFunc), new Task(GoatFunc), new Task(WolfFunc)};
@@ -77,11 +72,12 @@ namespace Chou
                 task.Start();
             }
 
-            // CrossRiver(ref Goat);
-            // CrossRiver(ref Wolf);
-            // CrossRiver(ref Goat);
-            // CrossRiver(ref Cabbage);
-            // CrossRiver(ref Goat);
+            CrossRiver(ref Goat);
+            ChangeSates(ref Wolf, StateEntitiesEnum.Boat);
+            ChangeSates(ref Goat, StateEntitiesEnum.Boat);
+            ChangeSates(ref Wolf, StateEntitiesEnum.RightBank);
+            CrossRiver(ref Cabbage);
+            ChangeSates(ref Goat, StateEntitiesEnum.RightBank);
 
             Task.WaitAll(tasks.ToArray());
             Console.WriteLine($"fiish no peasant");
