@@ -9,7 +9,6 @@ namespace Chou
 
         public bool IsInTheSameState(StateEntitiesEnum entityOne, StateEntitiesEnum entityTwo)
         {
-            // Console.WriteLine($"p = {Peasant}, G = {Goat}, C = {Cabbage}, W = {Wolf}");
             return (entityOne == StateEntitiesEnum.LeftBank && entityTwo == StateEntitiesEnum.LeftBank) || 
                     (entityOne == StateEntitiesEnum.RightBank && entityTwo == StateEntitiesEnum.RightBank);
         }
@@ -38,8 +37,11 @@ namespace Chou
         {
             while (!IsFinish()) {
                 lock (balanceLock) {
-                    if (IsInTheSameState(Goat, Cabbage) && !IsStart() && !IsFinish())
-                        throw new Exception($"The Goat ate the gabbage w: {Wolf},  W:{Goat}, C:{Cabbage} _Finish::{IsFinish()}, __Start{IsStart()} ");
+                    if (!IsInTheSameState(Goat, Cabbage) || IsFinish() || IsStart())
+                        continue ;
+                    else
+                    //if (IsInTheSameState(Goat, Cabbage) && !IsStart() && !IsFinish())
+                        throw new Exception($"The Goat ate the gabbage W: {Wolf},  G:{Goat}, C:{Cabbage} _Finish::{IsFinish()}, __Start{IsStart()} && _samestate = {IsInTheSameState(Goat, Cabbage)} ");
                 }
             }
         } 
@@ -50,7 +52,7 @@ namespace Chou
         public async Task ChangeSates(string entityName, StateEntitiesEnum state)
         {
             await Task.Delay(1000);
-            Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage}");
+
             switch (entityName) {
                 case "Wolf":
                     Wolf = state;
@@ -64,7 +66,7 @@ namespace Chou
                 default:
                     throw new Exception($"Invalid parameter: {entityName} not in range Wolf Goat or Cabbage");
             }
-            Console.WriteLine($"test switch : {entityName} & {state}");
+            Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage}");
         }
 
         public async Task Execute()
@@ -73,12 +75,13 @@ namespace Chou
             foreach (var elem in tasks) {
                 elem.Start();
             }
-            ChangeSates("Wolf", StateEntitiesEnum.Boat);
-            ChangeSates("Goat", StateEntitiesEnum.Boat);
-            ChangeSates("Cabbage", StateEntitiesEnum.Boat);
-            Task.WaitAll(ChangeSates("Cabbage", StateEntitiesEnum.RightBank), ChangeSates("Wolf", StateEntitiesEnum.RightBank));
-            await ChangeSates("Cabbage", StateEntitiesEnum.RightBank);
+            await ChangeSates("Goat", StateEntitiesEnum.Boat);
+            Task.WaitAll(ChangeSates("Wolf", StateEntitiesEnum.Boat), ChangeSates("Cabbage", StateEntitiesEnum.Boat));
+            Task.WaitAll(ChangeSates("Wolf", StateEntitiesEnum.RightBank), ChangeSates("Cabbage", StateEntitiesEnum.RightBank));
+            await ChangeSates("Goat", StateEntitiesEnum.RightBank);
+
             Console.WriteLine("Finish async");
+            Task.WaitAll(tasks.ToArray());
         }
     }
 }
