@@ -5,9 +5,11 @@
 
         static void Main(string[] args)
         {
-            // MultithreadingSolution test = new MultithreadingSolution();
-            MultithreadingWithoutPeasant testNoP = new MultithreadingWithoutPeasant();
-            testNoP.execute();
+            // MultithreadingSolution multithreadingSolution = new MultithreadingSolution();
+            MultithreadingWithoutPeasant multithreadingWithoutPeasant = new MultithreadingWithoutPeasant();
+            AsyncSolution asyncSolution = new AsyncSolution();
+            // testNoP.execute();
+            asyncSolution.Execute();
 
         }
     }

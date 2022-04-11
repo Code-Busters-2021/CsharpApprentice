@@ -5,6 +5,7 @@ namespace Chou
         private StateEntitiesEnum Wolf = StateEntitiesEnum.LeftBank;
         private StateEntitiesEnum Cabbage = StateEntitiesEnum.LeftBank;
         private StateEntitiesEnum Goat = StateEntitiesEnum.LeftBank;
+        private readonly object balanceLock = new object();
 
         public bool IsInTheSameState(StateEntitiesEnum entityOne, StateEntitiesEnum entityTwo)
         {
@@ -46,30 +47,38 @@ namespace Chou
         public void CabbageFunc()
         {
         }
-
-        public async Task CrossRiver(ref StateEntitiesEnum element)
+        public async Task ChangeSates(string entityName, StateEntitiesEnum state)
         {
-            StateEntitiesEnum tmpElem = element;
-            element = StateEntitiesEnum.Boat;
-            await Thread.Sleep(1000);
-            element = tmpElem == StateEntitiesEnum.LeftBank ? StateEntitiesEnum.RightBank : StateEntitiesEnum.LeftBank;
+            await Task.Delay(1000);
             Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage}");
+            switch (entityName) {
+                case "Wolf":
+                    Wolf = state;
+                    break ;
+                case "Goat":
+                    Goat = state;
+                    break ;
+                case "Cabbage":
+                    Cabbage = state;
+                    break ;
+                default:
+                    throw new Exception($"Invalid parameter: {entityName} not in range Wolf Goat or Cabbage");
+            }
+            Console.WriteLine($"test switch : {entityName} & {state}");
         }
 
-        public async Task ChangeSates(ref StateEntitiesEnum element, StateEntitiesEnum state)
+        public async Task Execute()
         {
-            await Thread.Sleep(1000);
-            Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage}");
-            element = state;
-        }
-
-        public Task Execute()
-        {
-            List<Task> tasks = new List<Task>() { new Task(Wolf), new Task(Goat), new Task(Cabbage) };
+            List<Task> tasks = new List<Task>() { new Task(WolfFunc), new Task(GoatFunc), new Task(CabbageFunc) };
             foreach (var elem in tasks) {
                 elem.Start();
             }
-            Task.WaitAll(tasks);
+            ChangeSates("Wolf", StateEntitiesEnum.Boat);
+            ChangeSates("Goat", StateEntitiesEnum.Boat);
+            ChangeSates("Cabbage", StateEntitiesEnum.Boat);
+            Task.WaitAll(ChangeSates("Cabbage", StateEntitiesEnum.RightBank), ChangeSates("Wolf", StateEntitiesEnum.RightBank));
+            await ChangeSates("Cabbage", StateEntitiesEnum.RightBank);
+            Console.WriteLine("Finish async");
         }
     }
 }
