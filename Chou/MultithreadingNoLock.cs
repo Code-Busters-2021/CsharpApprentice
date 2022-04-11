@@ -1,6 +1,6 @@
 namespace Chou
 {
-    public class MultithreadingSolution
+    public class MultithreadingNoLock
     {
         private StateEntitiesEnum Wolf = StateEntitiesEnum.LeftBank;
         private StateEntitiesEnum Cabbage = StateEntitiesEnum.LeftBank;
@@ -24,20 +24,16 @@ namespace Chou
         public void WolfFunc()
         {
             while (!IsFinish()) {
-                lock (balanceLock) {
-                    if (IsInTheSameState(Wolf, Goat))
-                        throw new Exception("The wolf ate the goat");
-                }
+                if (IsInTheSameState(Wolf, Goat))
+                    throw new Exception("The wolf ate the goat");
             }
         }
 
         public void GoatFunc()
         {
             while (!IsFinish()) {
-                lock (balanceLock) {
-                    if (IsInTheSameState(Goat, Cabbage))
-                        throw new Exception("The Goat ate the gabbage");
-                }
+                if (IsInTheSameState(Goat, Cabbage))
+                    throw new Exception("The Goat ate the gabbage");
             }
         } 
 
@@ -76,7 +72,7 @@ namespace Chou
             }
 
             Task.WaitAll(tasks.ToArray());
-            Console.WriteLine($"finish multithreading");
+            Console.WriteLine($"finish no lock");
             Console.WriteLine();
         }
 

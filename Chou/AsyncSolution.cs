@@ -80,8 +80,9 @@ namespace Chou
             Task.WaitAll(ChangeSates("Wolf", StateEntitiesEnum.RightBank), ChangeSates("Cabbage", StateEntitiesEnum.RightBank));
             await ChangeSates("Goat", StateEntitiesEnum.RightBank);
 
-            Console.WriteLine("Finish async");
             Task.WaitAll(tasks.ToArray());
+            Console.WriteLine("Finish async");
+            Console.WriteLine();
         }
     }
 }

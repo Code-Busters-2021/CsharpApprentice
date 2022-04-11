@@ -5,10 +5,14 @@
 
         static async Task Main(string[] args)
         {
-            // MultithreadingSolution multithreadingSolution = new MultithreadingSolution();
+            MultithreadingSolution multithreadingSolution = new MultithreadingSolution();
             MultithreadingWithoutPeasant multithreadingWithoutPeasant = new MultithreadingWithoutPeasant();
             AsyncSolution asyncSolution = new AsyncSolution();
-            // testNoP.execute();
+            MultithreadingNoLock multithreadingNoLock = new MultithreadingNoLock();
+
+            multithreadingSolution.execute();
+            multithreadingWithoutPeasant.execute();
+            multithreadingNoLock.execute();
             await asyncSolution.Execute();
 
         }

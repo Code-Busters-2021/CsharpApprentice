@@ -80,7 +80,8 @@ namespace Chou
             ChangeSates(ref Goat, StateEntitiesEnum.RightBank);
 
             Task.WaitAll(tasks.ToArray());
-            Console.WriteLine($"fiish no peasant");
+            Console.WriteLine($"finish no peasant");
+            Console.WriteLine();
         }
 
     }
