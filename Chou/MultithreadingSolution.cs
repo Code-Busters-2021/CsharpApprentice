@@ -51,20 +51,17 @@ namespace Chou
             element = StateEntitiesEnum.Boat;
             Thread.Sleep(1000);
             element = tmpElem == StateEntitiesEnum.LeftBank ? StateEntitiesEnum.RightBank : StateEntitiesEnum.LeftBank;
+            Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage} & p = {Peasant}");
         }
 
         public void PeasantFunc()
         {
-            Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage} & p = {Peasant}");
             CrossRiver(ref Wolf);
             CrossRiver(ref Cabbage);
             CrossRiver(ref Peasant);
-            Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage} & p = {Peasant}");
             CrossRiver(ref Peasant);
-            Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage} & p = {Peasant}");
             CrossRiver(ref Peasant);
             CrossRiver(ref Goat);
-            Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage} & p = {Peasant}");
         }
 
         public void execute()
