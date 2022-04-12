@@ -40,7 +40,6 @@ namespace Chou
                     if (!IsInTheSameState(Goat, Cabbage) || IsFinish() || IsStart())
                         continue ;
                     else
-                    //if (IsInTheSameState(Goat, Cabbage) && !IsStart() && !IsFinish())
                         throw new Exception($"The Goat ate the gabbage W: {Wolf},  G:{Goat}, C:{Cabbage} _Finish::{IsFinish()}, __Start{IsStart()} && _samestate = {IsInTheSameState(Goat, Cabbage)} ");
                 }
             }
