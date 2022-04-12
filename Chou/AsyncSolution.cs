@@ -7,7 +7,8 @@ namespace Chou
         private StateEntitiesEnum Goat = StateEntitiesEnum.LeftBank;
         private readonly object balanceLock = new object();
 
-        public bool IsInTheSameState(StateEntitiesEnum entityOne, StateEntitiesEnum entityTwo)
+        
+        public bool CanEat(StateEntitiesEnum entityOne, StateEntitiesEnum entityTwo)
         {
             return (entityOne == StateEntitiesEnum.LeftBank && entityTwo == StateEntitiesEnum.LeftBank) || 
                     (entityOne == StateEntitiesEnum.RightBank && entityTwo == StateEntitiesEnum.RightBank);
@@ -27,7 +28,7 @@ namespace Chou
         {
             while (!IsFinish()) {
                 lock (balanceLock) {
-                    if (IsInTheSameState(Wolf, Goat) && !IsStart() && !IsFinish())
+                    if (CanEat(Wolf, Goat) && !IsStart() && !IsFinish())
                         throw new Exception("The wolf ate the goat");
                 }
             }
@@ -37,11 +38,11 @@ namespace Chou
         {
             while (!IsFinish()) {
                 lock (balanceLock) {
-                    if (!IsInTheSameState(Goat, Cabbage) || IsFinish() || IsStart())
+                    if (!CanEat(Goat, Cabbage) || IsFinish() || IsStart())
                         continue ;
                     else
-                    //if (IsInTheSameState(Goat, Cabbage) && !IsStart() && !IsFinish())
-                        throw new Exception($"The Goat ate the gabbage W: {Wolf},  G:{Goat}, C:{Cabbage} _Finish::{IsFinish()}, __Start{IsStart()} && _samestate = {IsInTheSameState(Goat, Cabbage)} ");
+                    //if (AreInTheSamePlace(Goat, Cabbage) && !IsStart() && !IsFinish())
+                        throw new Exception($"The Goat ate the gabbage W: {Wolf},  G:{Goat}, C:{Cabbage} _Finish::{IsFinish()}, __Start{IsStart()} && _samestate = {CanEat(Goat, Cabbage)} ");
                 }
             }
         } 
@@ -76,6 +77,7 @@ namespace Chou
                 elem.Start();
             }
             await ChangeSates("Goat", StateEntitiesEnum.Boat);
+
             Task.WaitAll(ChangeSates("Wolf", StateEntitiesEnum.Boat), ChangeSates("Cabbage", StateEntitiesEnum.Boat));
             Task.WaitAll(ChangeSates("Wolf", StateEntitiesEnum.RightBank), ChangeSates("Cabbage", StateEntitiesEnum.RightBank));
             await ChangeSates("Goat", StateEntitiesEnum.RightBank);

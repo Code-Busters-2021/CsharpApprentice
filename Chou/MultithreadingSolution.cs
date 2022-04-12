@@ -8,24 +8,24 @@ namespace Chou
         private StateEntitiesEnum Peasant = StateEntitiesEnum.LeftBank;
         private readonly object balanceLock = new object();
 
-        public bool IsInTheSameState(StateEntitiesEnum entityOne, StateEntitiesEnum entityTwo)
+        public bool AreInTheSamePlace(StateEntitiesEnum entityOne, StateEntitiesEnum entityTwo)
         {
-            // Console.WriteLine($"p = {Peasant}, G = {Goat}, C = {Cabbage}, W = {Wolf}");
-            return (entityOne == StateEntitiesEnum.LeftBank && entityTwo == StateEntitiesEnum.LeftBank && Peasant != StateEntitiesEnum.LeftBank) || 
-                    (entityOne == StateEntitiesEnum.RightBank && entityTwo == StateEntitiesEnum.RightBank && Peasant != StateEntitiesEnum.RightBank) || 
-                    (entityOne == StateEntitiesEnum.Boat && entityTwo == StateEntitiesEnum.Boat && Peasant != StateEntitiesEnum.Boat);
+            return entityOne == entityTwo && Peasant != entityOne;
         }
 
         public bool IsFinish()
         {
-            return Wolf == StateEntitiesEnum.RightBank && Goat == StateEntitiesEnum.RightBank && Cabbage == StateEntitiesEnum.RightBank && Peasant == StateEntitiesEnum.RightBank;   
+            return Wolf    == StateEntitiesEnum.RightBank
+                && Goat    == StateEntitiesEnum.RightBank
+                && Cabbage == StateEntitiesEnum.RightBank
+                && Peasant == StateEntitiesEnum.RightBank;   
         }
 
         public void WolfFunc()
         {
             while (!IsFinish()) {
                 lock (balanceLock) {
-                    if (IsInTheSameState(Wolf, Goat))
+                    if (AreInTheSamePlace(Wolf, Goat))
                         throw new Exception("The wolf ate the goat");
                 }
             }
@@ -35,14 +35,25 @@ namespace Chou
         {
             while (!IsFinish()) {
                 lock (balanceLock) {
-                    if (IsInTheSameState(Goat, Cabbage))
-                        throw new Exception("The Goat ate the gabbage");
+                    if (AreInTheSamePlace(Goat, Cabbage))
+                        throw new Exception("The Goat ate the cabbage");
                 }
             }
         } 
 
         public void CabbageFunc()
         {
+            if (!IsFinish()) 
+                Console.WriteLine("I'm a Cabbage");
+        }
+        public void PeasantFunc()
+        {
+            CrossRiver(ref Wolf);
+            CrossRiver(ref Cabbage);
+            CrossRiver(ref Peasant);
+            CrossRiver(ref Peasant);
+            CrossRiver(ref Peasant);
+            CrossRiver(ref Goat);
         }
 
         public void CrossRiver(ref StateEntitiesEnum element)
@@ -54,28 +65,40 @@ namespace Chou
             Console.WriteLine($"Wolf {Wolf} & Goat = {Goat} & Cabbage {Cabbage} & p = {Peasant}");
         }
 
-        public void PeasantFunc()
-        {
-            CrossRiver(ref Wolf);
-            CrossRiver(ref Cabbage);
-            CrossRiver(ref Peasant);
-            CrossRiver(ref Peasant);
-            CrossRiver(ref Peasant);
-            CrossRiver(ref Goat);
-        }
 
-        public void execute()
+        public void executeWithThreads()
         {
-            List<Task> tasks = new List<Task>() {new Task(GoatFunc), new Task(WolfFunc), new Task(CabbageFunc), new Task(PeasantFunc)};
+            Thread[] threads = new[]
+            {
+                new Thread(GoatFunc),
+                new Thread(WolfFunc),
+                new Thread(CabbageFunc),
+                new Thread(PeasantFunc)
+            };
 
-            foreach (var task in tasks) {
-                task.Start();
+
+
+            foreach (var thread in threads)
+            {
+                thread.Join();
             }
-
-            Task.WaitAll(tasks.ToArray());
             Console.WriteLine($"finish multithreading");
             Console.WriteLine();
         }
 
+        public void executeWithTasks()
+        {
+            var tasks = new[]
+            {
+                Task.Factory.StartNew(GoatFunc),
+                Task.Factory.StartNew(WolfFunc),
+                Task.Factory.StartNew(CabbageFunc),
+                Task.Factory.StartNew(PeasantFunc)
+            };
+            Task.WaitAll(tasks);
+
+            Console.WriteLine($"finish multithreading");
+            Console.WriteLine();
+        }
     }
-}
+    }
