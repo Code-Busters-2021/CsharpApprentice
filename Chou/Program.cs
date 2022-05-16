@@ -10,7 +10,7 @@
             AsyncSolution asyncSolution = new AsyncSolution();
             MultithreadingNoLock multithreadingNoLock = new MultithreadingNoLock();
 
-            multithreadingSolution.execute();
+            multithreadingSolution.executeWithThreads();
             multithreadingWithoutPeasant.execute();
             multithreadingNoLock.execute();
             await asyncSolution.Execute();
